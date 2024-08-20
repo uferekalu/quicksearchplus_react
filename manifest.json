@@ -1,0 +1,73 @@
+{
+  "manifest_version": 3,
+  "name": "QuickSearch+",
+  "description": "My Search Results Extension extracts and renders Google search results in a popup page.",
+  "version": "1.0",
+  "oauth2": {
+    "client_id": "755964028322-7amtoisdumllmt7obkkn5gvfs41092rj.apps.googleusercontent.com",
+    "scopes": [
+      "https://www.googleapis.com/auth/userinfo.email",
+      "https://www.googleapis.com/auth/userinfo.profile"
+    ]
+  },
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnANEyQEk7efFzX1hSXxInpxDNQJyT5nx4BkpeLXLicR9u64Cd/CYqhqudIs24YWYcA+E2BmK5vbxh0wTIMa6Nz/LshH3Q1+Dr4eZkv33O0vvqL+BDbO973qr2TM8t6wqz4VVwCKnm+4yaCQkTw6CAxC6ohGcGEUms7wPIqZSfP1Umk6jPwg9/GiA+8CWsdxTIY7NDXDXRfUEhlKLrCkzbH/JkIfW5N8+ZFm8/wX2vgce/ETILuLV8VaHBwc2Yr2oY+8WJBYakkoGHb9rXbxkQD+IKzO4LdIccwrbCUNJ2UqGffH7ucm3t1HDW9e7AcnrtffGKUr0/zEvSkWHwYfJ9QIDAQAB",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "permissions": [
+    "activeTab",
+    "tabs",
+    "storage",
+    "history",
+    "scripting",
+    "bookmarks",
+    "identity",
+    "contextMenus",
+    "https://www.google-analytics.com/*",
+    "<all_urls>",
+    "https://www.google.com/*",
+    "https://api.openai.com/*",
+    "*://www.bing.com/*",
+    "https://api.semanticscholar.org/*",
+    "https://serpapi.com/",
+    "clipboardWrite",
+    "https://api.stripe.com/",
+    "https://api.paystack.co/",
+    "downloads"
+  ],
+  "host_permissions": [
+    "https://*.google.com/",
+    "https://api.duckduckgo.com/",
+    "http://localhost:3000/*",
+    "https://quicksearchserver-8ee1999baeab.herokuapp.com/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["https://www.google.com/*", "*://www.bing.com/*"],
+      "run_at": "document_idle",
+      "js": ["content/script.js"]
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "background": {
+    "service_worker": "background/background.js"
+  },
+  "content_security_policy": {
+    "content_security_policy": "script-src 'self' https://www.google-analytics.com/mp/collect; object-src unsafe-inline 'self'"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["popup/popup.js"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}

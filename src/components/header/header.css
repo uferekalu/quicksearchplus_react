@@ -1,0 +1,92 @@
+.header {
+  display: flex;
+  height: 50px;
+  background-color: #ffffff;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 100;
+  padding: 10px 0;
+}
+.logoHolder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  height: 50px;
+  cursor: pointer;
+}
+.logoImg {
+  width: 125px;
+  height: 85px;
+  margin-left: 3rem;
+}
+.welcomeUser {
+  display: flex;
+  font-size: 15px;
+  margin-left: 40px;
+  margin-top: 10px;
+  font-weight: 600;
+}
+.gptProfileHolder {
+  display: flex;
+  gap: 17px;
+
+  display: flex;
+  align-items: center;
+  width: 200px;
+  justify-content: space-between;
+  margin-left: auto;
+}
+.gptProfileHolder .fa-toggle-on {
+  font-size: 30px;
+  color: #034aa6;
+}
+.gpt__switch-cont {
+  border: 1px solid #b7bfca;
+  padding: 5px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100px;
+  border-radius: 5px;
+}
+.gpt__switch-cont span {
+  font-size: large;
+  font-family: 'poppins' sans-serif;
+  font-weight: bold;
+}
+.profile__cont {
+  width: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  cursor: pointer;
+  margin-right: 30px;
+}
+
+.profile__cont .fa-user,
+.fa-caret-down {
+  font-size: 20px;
+  color: #034aa6;
+}
+.profileIdentity {
+  display: none;
+  width: 50px;
+  height: 35px;
+  border-radius: 50%;
+  background-color: #dee3fa;
+  margin-right: 5px;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+  color: darkblue;
+  font-weight: 700;
+}
+.profileImageIdentity {
+    display: none;
+    width: 50px;
+    height: 30px;
+    margin-right: 5px;
+    border-radius: 50%;
+  }
