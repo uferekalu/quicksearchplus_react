@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react'
 import '../home/home.css'
 import SearchOptions from './SearchOptions'
-import { fetchFromGoogleSearch } from '../../utils/search'
+import { performGoogleAndScholarSearch } from '../../utils/performGoogleAndScholarSearch'
+import RenderSearchedResult from './RenderSearchedResult'
 
-const Home = () => {
+const Home = ({ openInNewTab }) => {
   const [inputClick, setInputClick] = useState(false)
   const [showGoogleOrScholarIcon, setShowGoogleOrScholarIcon] = useState(false)
   const [inputValue, setInputValue] = useState('')
@@ -29,18 +30,14 @@ const Home = () => {
     }
   }
 
-  const handleSearch = (event) => {
+  const handleSearch = async (event) => {
     event.preventDefault()
-    chrome.storage.local.get(['isGoogle', 'isGoogleScholar'], async function (data) {
-      const isGoogle = data.isGoogle
-      const isGoogleScholar = data.isGoogleScholar
-      if (isGoogle) {
-        if (currentPage === 1) {
-          const result = await fetchFromGoogleSearch(inputValue, 1, setIsLoading)
-          setSearchedResult(result)
-        }
-      }
-    })
+    await performGoogleAndScholarSearch(
+      inputValue,
+      setIsLoading,
+      setSearchedResult,
+      currentPage,
+    )
   }
 
   useEffect(() => {
@@ -72,35 +69,40 @@ const Home = () => {
             className="search-btn ripple-button"
             id="submite"
             onClick={handleSearch}
+            disabled={isLoading}
           >
-            <i className="fa-solid fa-magnifying-glass google__search"></i>
-            <span className="load__spinner">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="1em"
-                height="1em"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  fill="currentColor"
-                  d="M12 2A10 10 0 1 0 22 12A10 10 0 0 0 12 2Zm0 18a8 8 0 1 1 8-8A8 8 0 0 1 12 20Z"
-                  opacity="0.5"
-                />
-                <path
-                  fill="currentColor"
-                  d="M20 12h2A10 10 0 0 0 12 2V4A8 8 0 0 1 20 12Z"
+            {!isLoading && (
+              <i className="fa-solid fa-magnifying-glass google__search"></i>
+            )}
+            {isLoading && (
+              <span className="load__spinner">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="1em"
+                  height="1em"
+                  viewBox="0 0 24 24"
                 >
-                  <animateTransform
-                    attributeName="transform"
-                    dur="1s"
-                    from="0 12 12"
-                    repeatCount="indefinite"
-                    to="360 12 12"
-                    type="rotate"
+                  <path
+                    fill="currentColor"
+                    d="M12 2A10 10 0 1 0 22 12A10 10 0 0 0 12 2Zm0 18a8 8 0 1 1 8-8A8 8 0 0 1 12 20Z"
+                    opacity="0.5"
                   />
-                </path>
-              </svg>
-            </span>
+                  <path
+                    fill="currentColor"
+                    d="M20 12h2A10 10 0 0 0 12 2V4A8 8 0 0 1 20 12Z"
+                  >
+                    <animateTransform
+                      attributeName="transform"
+                      dur="1s"
+                      from="0 12 12"
+                      repeatCount="indefinite"
+                      to="360 12 12"
+                      type="rotate"
+                    />
+                  </path>
+                </svg>
+              </span>
+            )}
           </button>
         </div>
       </div>
@@ -188,7 +190,11 @@ const Home = () => {
       </div>
       <p id="selectedCollection" className="selectedCollection"></p>
       <div className="searchResultsHolder">
-        <div id="search-results"></div>
+        <div id="search-results">
+          {new Array(7).fill(null).map((data, index) => (
+            <RenderSearchedResult key={index} openInNewTab={openInNewTab}/>
+          ))}
+        </div>
 
         <div id="pagination-container"></div>
       </div>
